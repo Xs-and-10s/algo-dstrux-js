@@ -25,5 +25,6 @@ module.exports = {
     'import/prefer-default-export': 0,
     '@typescript-eslint/lines-between-class-members': 0,
     'no-plusplus': 0,
+    'max-classes-per-file': 0,
   },
 };
