@@ -1,7 +1,7 @@
-export class Queue {
-  q = [];
+export class Queue<T> {
+  q: T[] = [];
 
-  enqueue(element) {
+  enqueue(element: T) {
     this.q.push(element);
   }
   dequeue() {
