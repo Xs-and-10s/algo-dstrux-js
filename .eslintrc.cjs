@@ -30,5 +30,8 @@ module.exports = {
     'no-multi-assign': 0,
     '@typescript-eslint/naming-convention': 0,
     '@typescript-eslint/no-use-before-define': 0,
+    'no-prototype-builtins': 0,
+    'no-underscore-dangle': 0,
+    'no-continue': 0,
   },
 };
