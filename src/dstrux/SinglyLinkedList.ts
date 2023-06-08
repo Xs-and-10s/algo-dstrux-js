@@ -1,8 +1,3 @@
-type TSingleLink<T> = {
-  value: T;
-  next: TSingleLink<T> | null;
-};
-
 export class SingleLink<T> {
   value: T;
   next: SingleLink<T> | null;
@@ -17,6 +12,7 @@ export class SinglyLinkedList<T> {
   constructor(value: T) {
     this.list = new SingleLink(value);
   }
+
   toString(): string {
     const l = this.list;
     let str = '';
@@ -26,23 +22,26 @@ export class SinglyLinkedList<T> {
     str += `${l.value}`;
     return str;
   }
+
   cons(value: T) {
     const l = this.list;
     const n = new SingleLink(value);
     n.next = l;
     this.list = n;
   }
+
   reverse() {
     let l = this.list;
     let r = null;
-    while (l) {
+    while (l && l.next) {
       const n = new SingleLink(l.value);
       n.next = r;
       r = n;
-      (l as TSingleLink<T> | null) = l.next;
+      l = l.next;
     }
     return r;
   }
+
   removeAllWhere(k: T) {
     // first matches
     let head = this.list;
@@ -53,7 +52,7 @@ export class SinglyLinkedList<T> {
       if (head.next) {
         head = head.next;
       } else {
-        return null;
+        return this.list;
       }
     }
     // middle matches
@@ -65,7 +64,7 @@ export class SinglyLinkedList<T> {
       } else {
         prev = curr;
       }
-      (curr as TSingleLink<T> | null) = prev.next;
+      (curr as SingleLink<T> | null) = prev.next;
     }
     // last match
     if (curr && curr.value === k) {
@@ -74,68 +73,89 @@ export class SinglyLinkedList<T> {
 
     return head;
   }
-  // removeFirstWhere(k: T) {
-  //   // head match
-  //   let head = this.list;
-  //   if (head.value === k) {
-  //     if (head.next) {
-  //       head = head.next;
-  //     } else {
-  //       head = new SingleLink(null);
-  //     }
-  //     return head;
-  //   }
-  //   // middle match
-  //   const prev = head;
-  //   let curr = head;
-  //   while (curr.next) {
-  //     if (curr.value === k) {
-  //       prev.next = curr.next;
-  //       return prev;
-  //     }
-  //     (curr as TSingleLink<T> | null) = prev.next;
-  //   }
-  //   // last match
-  //   if (curr && curr.value === k) {
-  //     prev.next = null;
-  //   }
-  //   return head;
-  // }
-  reduce(accum: T | TSingleLink<T>, f: (a: T | TSingleLink<T>, x: T) => T) {
+  removeFirstWhere(k: T) {
+    // head match
+    let head = this.list;
+    if (head.value === k) {
+      if (head.next) {
+        head = head.next;
+      } else {
+        head = this.list;
+      }
+      return head;
+    }
+    // middle match
+    const prev = head;
+    let curr = head;
+    while (curr.next) {
+      if (curr.value === k) {
+        prev.next = curr.next;
+        return prev;
+      }
+      (curr as SingleLink<T> | null) = prev.next;
+    }
+    // last match
+    if (curr && curr.value === k) {
+      prev.next = null;
+    }
+    return head;
+  }
+
+  reduce<U>(accum: U, f: (a: U, x: T) => U): SinglyLinkedList<U> {
     let l = this.list;
-    while (l.next) {
+    while (l && l.next && l.value) {
       accum = f(accum, l.value);
       l = l.next;
     }
     accum = f(accum, l.value);
-    accum = new SingleLink(accum);
-    return accum;
+    const result = new SinglyLinkedList(accum);
+    return result;
   }
-  // map<U>(functor: (x: T) => U) {
-  //   let l = this.list;
-  //   let n: TSingleLink<U>;
-  //   while (l.next) {
-  //     n = new SingleLink(functor(l.value));
-  //     n.next = l.next;
-  //     (l as TSingleLink<U> | null) = n.next;
-  //   }
-  //   n = new SingleLink(functor(l.value));
-  //   return n;
-  // }
-  // filter(predicate: (cond: T) => boolean): TSingleLink<T> {
-  //   let l = this.list;
-  //   let n: TSingleLink<T>;
-  //   while (l.next) {
-  //     if (predicate(l.value)) {
-  //       n = new SingleLink(l.value);
-  //       n.next = l.next;
-  //       l = l.next;
-  //     }
-  //     (l as TSingleLink<T> | null) = n.next;
-  //   }
-  //   if (predicate(l.value)) {
-  //     n = new SingleLink(l.value);
-  //   }
-  //   return n;
-  // }
+
+  map<U>(functor: (x: T) => U): SinglyLinkedList<U> {
+    let l: SingleLink<T> | null = this.list;
+    let m: SingleLink<U> | null;
+    let head: SinglyLinkedList<U>;
+
+    if (l && l.value) {
+      m = new SingleLink<U>(functor(l.value));
+      head = new SinglyLinkedList<U>(m.value);
+      l = l.next;
+      m = m.next;
+    }
+    while (l && l.next) {
+      m!.next = new SingleLink(functor(l.next.value));
+      l = l.next;
+      m = m!.next; // .next === null
+    }
+    if (l && l.value && l.next === null) {
+      m = new SingleLink(functor(l.value));
+    }
+    return head!;
+  }
+
+  filter(predicate: (v: T) => boolean): SinglyLinkedList<T> {
+    let l: SingleLink<T> | null = this.list;
+    let m: SingleLink<T> | null;
+    let head: SinglyLinkedList<T>;
+    if (l && l.value) {
+      if (predicate(l.value)) {
+        m = new SingleLink<T>(l.value);
+        head = new SinglyLinkedList<T>(m.value);
+        l = l.next;
+        m = m.next;
+      }
+    }
+    while (l && l.next) {
+      if (predicate(l.value)) {
+        m = new SingleLink<T>(l.value);
+        l = l.next;
+        m = m!.next;
+      }
+    }
+    if (l && predicate(l.value)) {
+      m = new SingleLink(l.value);
+    }
+    return head!;
+  }
 }
