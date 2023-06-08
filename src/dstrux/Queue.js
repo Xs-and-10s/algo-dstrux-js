@@ -1,27 +1,27 @@
 export class Queue {
-  dataStore = [];
+  q = [];
 
   enqueue(element) {
-    this.dataStore.push(element);
+    this.q.push(element);
   }
   dequeue() {
-    return this.dataStore.shift();
+    return this.q.shift();
   }
   front() {
-    return this.dataStore[0];
+    return this.q[0];
   }
   back() {
-    return this.dataStore[this.dataStore.length - 1];
+    return this.q[this.q.length - 1];
   }
   toString() {
     let theString = '';
-    for (let i = 0; i < this.dataStore.length; i++) {
-      theString += `${this.dataStore[i]}\n`;
+    for (let i = 0; i < this.q.length; i++) {
+      theString += `${this.q[i]}\n`;
     }
     return theString;
   }
   isEmpty() {
-    if (this.dataStore.length === 0) {
+    if (this.q.length === 0) {
       return true;
     }
     return false;
