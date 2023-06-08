@@ -28,5 +28,7 @@ module.exports = {
     'max-classes-per-file': 0,
     'no-param-reassign': 0,
     'no-multi-assign': 0,
+    '@typescript-eslint/naming-convention': 0,
+    '@typescript-eslint/no-use-before-define': 0,
   },
 };
