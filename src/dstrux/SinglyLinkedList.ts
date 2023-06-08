@@ -24,10 +24,10 @@ export class SinglyLinkedList<T> {
   }
 
   cons(value: T) {
-    const l = this.list;
-    const n = new SingleLink(value);
-    n.next = l;
-    this.list = n;
+    const r = this.list;
+    const l = new SingleLink(value);
+    l.next = r;
+    this.list = l;
   }
 
   reverse() {
