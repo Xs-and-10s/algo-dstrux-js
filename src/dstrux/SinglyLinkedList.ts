@@ -32,6 +32,75 @@ export class SinglyLinkedList<T> {
     n.next = l;
     this.list = n;
   }
+  reverse() {
+    let l = this.list;
+    let r = null;
+    while (l) {
+      const n = new SingleLink(l.value);
+      n.next = r;
+      r = n;
+      (l as TSingleLink<T> | null) = l.next;
+    }
+    return r;
+  }
+  removeAllWhere(k: T) {
+    // first matches
+    let head = this.list;
+    if (head === null) {
+      return head;
+    }
+    while (head && head.value === k) {
+      if (head.next) {
+        head = head.next;
+      } else {
+        return null;
+      }
+    }
+    // middle matches
+    let prev = head;
+    let curr = head;
+    while (curr && curr.next) {
+      if (k === curr.value) {
+        prev.next = curr.next;
+      } else {
+        prev = curr;
+      }
+      (curr as TSingleLink<T> | null) = prev.next;
+    }
+    // last match
+    if (curr && curr.value === k) {
+      prev.next = null;
+    }
+
+    return head;
+  }
+  // removeFirstWhere(k: T) {
+  //   // head match
+  //   let head = this.list;
+  //   if (head.value === k) {
+  //     if (head.next) {
+  //       head = head.next;
+  //     } else {
+  //       head = new SingleLink(null);
+  //     }
+  //     return head;
+  //   }
+  //   // middle match
+  //   const prev = head;
+  //   let curr = head;
+  //   while (curr.next) {
+  //     if (curr.value === k) {
+  //       prev.next = curr.next;
+  //       return prev;
+  //     }
+  //     (curr as TSingleLink<T> | null) = prev.next;
+  //   }
+  //   // last match
+  //   if (curr && curr.value === k) {
+  //     prev.next = null;
+  //   }
+  //   return head;
+  // }
   reduce(accum: T | TSingleLink<T>, f: (a: T | TSingleLink<T>, x: T) => T) {
     let l = this.list;
     while (l.next) {
@@ -69,73 +138,4 @@ export class SinglyLinkedList<T> {
   //   }
   //   return n;
   // }
-  reverse() {
-    let l = this.list;
-    let r = null;
-    while (l) {
-      const n = new SingleLink(l.value);
-      n.next = r;
-      r = n;
-      (l as TSingleLink<T> | null) = l.next;
-    }
-    return r;
-  }
-  // removeFirstWhere(k: T) {
-  //   // head match
-  //   let head = this.list;
-  //   if (head.value === k) {
-  //     if (head.next) {
-  //       head = head.next;
-  //     } else {
-  //       head = new SingleLink(null);
-  //     }
-  //     return head;
-  //   }
-  //   // middle match
-  //   const prev = head;
-  //   let curr = head;
-  //   while (curr.next) {
-  //     if (curr.value === k) {
-  //       prev.next = curr.next;
-  //       return prev;
-  //     }
-  //     (curr as TSingleLink<T> | null) = prev.next;
-  //   }
-  //   // last match
-  //   if (curr && curr.value === k) {
-  //     prev.next = null;
-  //   }
-  //   return head;
-  // }
-  removeAllWhere(k: T) {
-    // first matches
-    let head = this.list;
-    if (head === null) {
-      return head;
-    }
-    while (head && head.value === k) {
-      if (head.next) {
-        head = head.next;
-      } else {
-        return null;
-      }
-    }
-    // middle matches
-    let prev = head;
-    let curr = head;
-    while (curr && curr.next) {
-      if (k === curr.value) {
-        prev.next = curr.next;
-      } else {
-        prev = curr;
-      }
-      (curr as TSingleLink<T> | null) = prev.next;
-    }
-    // last match
-    if (curr && curr.value === k) {
-      prev.next = null;
-    }
-
-    return head;
-  }
 }
