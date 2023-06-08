@@ -1,4 +1,4 @@
-function sudoku_setup_check_grid(grid: string[][]): boolean {
+export function sudoku_setup_check_grid(grid: string[][]): boolean {
   let rowsOk = true;
   let colsOk = true;
   let blocksOk = true;
