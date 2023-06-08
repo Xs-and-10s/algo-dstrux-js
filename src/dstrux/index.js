@@ -1,3 +1,4 @@
+export { LRU } from './LRU';
 export { Queue } from './Queue';
 export { SingleLink } from './SingleLink';
 export { SinglyLinkedList } from './SinglyLinkedList';
