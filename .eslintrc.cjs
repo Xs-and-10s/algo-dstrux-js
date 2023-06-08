@@ -26,5 +26,6 @@ module.exports = {
     '@typescript-eslint/lines-between-class-members': 0,
     'no-plusplus': 0,
     'max-classes-per-file': 0,
+    'no-param-reassign': 0,
   },
 };
