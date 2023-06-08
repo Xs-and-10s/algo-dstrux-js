@@ -1,3 +1,3 @@
 # algo-dstrux-js
 
-## Algorithms & Data Structures in JS
+## Algorithms & Data Structures in JS/TS
