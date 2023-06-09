@@ -33,5 +33,6 @@ module.exports = {
     'no-prototype-builtins': 0,
     'no-underscore-dangle': 0,
     'no-continue': 0,
+    'no-bitwise': 0,
   },
 };
