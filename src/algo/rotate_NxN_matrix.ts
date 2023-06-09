@@ -1,4 +1,4 @@
-export function rotate_NxN_matrix<T>(a: T[][]) {
+export function rotate_NxN_matrix(a: number[][]) {
   a.reverse();
   for (let i = 0; i < a.length; i++) {
     for (let j = 0; j < i; j++) {
