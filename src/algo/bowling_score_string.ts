@@ -1,4 +1,5 @@
 /* eslint-disable prefer-destructuring */
+
 // const all_strikes = 'X X X X X X X X X X X X';
 // const all_nines = '9- 9- 9- 9- 9- 9- 9- 9- 9- 9-';
 // const all_spares = '5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5';
